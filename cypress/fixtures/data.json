@@ -1,0 +1,10 @@
+{
+    "data":
+    {
+        "email":"sujitnepal@21gmail.com",
+        "name":"sujit",
+        "password":"admin@123",
+        "confirm_password": "admin@123",
+        "invalid_email": "invalid email"
+    }
+}
