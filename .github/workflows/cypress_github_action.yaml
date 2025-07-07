@@ -1,15 +1,15 @@
 name: Run Cypress Tests Daily (Parallel + Report)
 
+# Uncomment to run on schedule every day at 10:00 AM Nepal time (UTC+5:45 → cron in UTC)
 # schedule:
-  #   - cron: '18 1 * * *'  # runs the test at 10:00 AM Nepal Time
-  # workflow_dispatch:
+#   - cron: '15 4 * * *'  # 10:00 AM Nepal time
 
- # this is for the test of trigger changed
-
+# Allow manual triggering and on push
 on:
   push:
     branches:
       - "**"
+  workflow_dispatch:
 
 jobs:
   cypress-run:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [1, 2]   # Parallel containers add as your requirements grow
+        containers: [1, 2]
 
     steps:
       - name: Checkout code
@@ -31,33 +31,35 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress in parallel with Mochawesome
-        run: |
-          npx cypress run --record --parallel --group "Daily Run"
+      - name: Run Cypress tests in parallel with Mochawesome
+        run: npx cypress run --record --parallel --group "Daily Run"
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Merge Mochawesome reports
+      - name: Create report directory
+        run: mkdir -p reports/mochawesome
+
+      - name: Merge and generate Mochawesome reports
         if: always()
         run: |
           npx mochawesome-merge cypress/reports/mochawesome/*.json > reports/mochawesome/mochawesome.json
-          npx marge cypress/reports/mochawesome/mochawesome.json --reportDir reports/mochawesome --reportFilename index.html
+          npx marge reports/mochawesome/mochawesome.json --reportDir reports/mochawesome --reportFilename index.html
 
       - name: Upload Mochawesome HTML Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Mochawesome Test Report
-          path: cypress/reports/mochawesome/index.html
+          name: mochawesome-report-${{ github.run_number }}
+          path: reports/mochawesome/index.html
 
-      - name: Upload Cypress screenshots
+      - name: Upload Cypress screenshots (if failed)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: Cypress screenshots
           path: cypress/screenshots
 
-      - name: Upload Cypress Videos
+      - name: Upload Cypress videos (if failed)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
