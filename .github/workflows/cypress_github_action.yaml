@@ -32,7 +32,7 @@ jobs:
 
       - name: Run Cypress in parallel with Mochawesome
         run: |
-          npx cypress run --record --parallel --group "Daily Run"
+          npx cypress run --parallel --group "Daily Run"
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Mochawesome Test Report
-          path: cypress/reports/final/index.html
+          path: reports/final/index.html
 
       - name: Upload Cypress Videos
         if: failure()
