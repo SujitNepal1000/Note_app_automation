@@ -1,11 +1,12 @@
 name: Run Cypress Tests Daily (Parallel + Report)
 
-on:
-  # schedule:
+# schedule:
   #   - cron: '18 1 * * *'  # runs the test at 10:00 AM Nepal Time
   # workflow_dispatch:
 
  # this is for the test of trigger changed
+
+on:
   push:
     branches:
       - "**"
@@ -39,15 +40,15 @@ jobs:
       - name: Merge Mochawesome reports
         if: always()
         run: |
-          npx mochawesome-merge reports/mochawesome/*.json > mochawesome.json
-          npx marge mochawesome.json --reportDir reports/final --reportFilename index.html
+          npx mochawesome-merge reports/mochawesome/*.json > reports/mochawesome/mochawesome.json
+          npx marge reports/mochawesome/mochawesome.json --reportDir reports/mochawesome --reportFilename index.html
 
       - name: Upload Mochawesome HTML Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Mochawesome Test Report
-          path: reports/final/index.html
+          path: reports/mochawesome/index.html
 
       - name: Upload Cypress Videos
         if: failure()
