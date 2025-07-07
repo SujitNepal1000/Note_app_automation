@@ -39,8 +39,8 @@ jobs:
       - name: Merge Mochawesome reports
         if: always()
         run: |
-          npx mochawesome-merge cypress/reports/mochawesome/*.json > mochawesome.json
-          npx marge mochawesome.json --reportDir cypress/reports/final --reportFilename index.html
+          npx mochawesome-merge reports/mochawesome/*.json > mochawesome.json
+          npx marge mochawesome.json --reportDir reports/final --reportFilename index.html
 
       - name: Upload Mochawesome HTML Report
         if: always()
