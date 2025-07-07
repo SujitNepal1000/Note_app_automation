@@ -1,9 +1,12 @@
 name: Run Cypress Tests Daily (Parallel + Report)
 
 on:
-  schedule:
-    - cron: '18 1 * * *'  # runs the test at 10:00 AM Nepal Time
-  workflow_dispatch:
+  # schedule:
+  #   - cron: '18 1 * * *'  # runs the test at 10:00 AM Nepal Time
+  # workflow_dispatch:
+  push:
+    branches:
+      - "**"
 
 jobs:
   cypress-run:
