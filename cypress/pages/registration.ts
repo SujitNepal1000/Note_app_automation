@@ -5,8 +5,13 @@ export class RegistrationPage {
   private passwordInput = '#password';
   private confirmPasswordInput = '#confirmPassword';
   private registerButton = 'button[type="submit"]';
-  private successfullyCreatedMsg = 'b'; 
-  private invalid_email_msg = ':nth-child(1) > :nth-child(1) > .invalid-feedback'
+
+  private successfullyCreatedMsg = 'b';
+  private invalidEmailMsg = ':nth-child(1) > :nth-child(1) > .invalid-feedback';
+  private requiredEmailMsg = '#email ~ .invalid-feedback';
+  private requiredPasswordMsg = '#password ~ .invalid-feedback';
+  private confirmPasswordMismatchMsg = '#confirmPassword ~ .invalid-feedback';
+  private emailExistsMsg = '[data-testid="alert-message"]';
 
   clickCreateAccount() {
     cy.get(this.createAccountBtn).click();
@@ -36,10 +41,23 @@ export class RegistrationPage {
     cy.get(this.successfullyCreatedMsg).should('contain.text', 'User account created successfully');
   }
 
-  invalid_email_assertation(){
-    cy.get(this.invalid_email_msg).should('contain.text','Email address is invalid')
+  invalidEmailAssertion() {
+    cy.get(this.invalidEmailMsg).should('contain.text', 'Email address is invalid');
   }
 
+  requiredEmailAssertion() {
+    cy.get(this.requiredEmailMsg).should('contain.text', 'Email address is required');
+  }
 
+  requiredPasswordAssertion() {
+    cy.get(this.requiredPasswordMsg).should('contain.text', 'Password is required');
+  }
 
+  passwordMismatchAssertion() {
+    cy.get(this.confirmPasswordMismatchMsg).should('contain.text', "Passwords don't match!");
+  }
+
+  emailExistsAssertion() {
+    cy.get(this.emailExistsMsg).should('contain.text', 'An account already exists with the same email address');
+  }
 }

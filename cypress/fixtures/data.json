@@ -1,10 +1,17 @@
 {
-    "data":
-    {
-        "email":"sujitnepal@21gmail.com",
-        "name":"sujit",
-        "password":"admin@123",
-        "confirm_password": "admin@123",
-        "invalid_email": "invalid email"
-    }
+  "data": {
+    "email": "sujitnepal@21gmail.com",
+    "name": "sujit",
+    "password": "admin@123",
+    "confirm_password": "admin@123",
+    "invalid_email": "invalid email",
+    "existing_email": "sujitnepal@21gmail.com",
+    "mismatch_confirm_password": "admin@456",
+    "note_title": "Test Note Title",
+    "note_description": "Test note description for automation.",
+    "updated_note_title": "Updated Note Title",
+    "updated_note_description": "Updated description content.",
+    "search_keyword": "Test",
+    "invalid_keyword": "nonexistentnote"
+  }
 }

@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+
+    // update for the faker-js library
+
+    "moduleResolution": "node",
+
+
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
