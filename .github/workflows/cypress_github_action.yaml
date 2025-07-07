@@ -30,10 +30,9 @@ jobs:
         run: npm ci
 
       - name: Run Cypress tests in parallel with Mochawesome
-        run: npx cypress run --record --parallel --group "Daily Run" || echo "Cypress exited with code $?"
+        run: npx cypress run --record --parallel --group "Daily Run" --reporter cypress-mochawesome-reporter || echo "Cypress exited with code $?"
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
 
       - name: Verify CYPRESS_RECORD_KEY
         env:
@@ -45,6 +44,8 @@ jobs:
             echo "CYPRESS_RECORD_KEY is not set"
           fi
 
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: List report files (debug)
         run: |
