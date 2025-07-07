@@ -36,14 +36,14 @@ jobs:
 
       - name: Verify CYPRESS_API_KEY
         env:
-          CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         run: |
-          echo CYPRESS_API_KEY
+          echo CYPRESS_RECORD_KEY
 
       - name: Echo CYPRESS_API_KEY (Temporary)
         env:
-          CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
-        run: echo "CYPRESS_API_KEY=$CYPRESS_API_KEY"
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: echo "CYPRESS_API_KEY=$CYPRESS_RECORD_KEY"
 
       - name: List report files (debug)
         run: |
