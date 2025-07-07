@@ -40,26 +40,26 @@ jobs:
       - name: Merge Mochawesome reports
         if: always()
         run: |
-          npx mochawesome-merge reports/mochawesome/*.json > reports/mochawesome/mochawesome.json
-          npx marge reports/mochawesome/mochawesome.json --reportDir reports/mochawesome --reportFilename index.html
+          npx mochawesome-merge cypress/reports/mochawesome/*.json > reports/mochawesome/mochawesome.json
+          npx marge cypress/reports/mochawesome/mochawesome.json --reportDir reports/mochawesome --reportFilename index.html
 
       - name: Upload Mochawesome HTML Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Mochawesome Test Report
-          path: reports/mochawesome/index.html
+          path: cypress/reports/mochawesome/index.html
 
       - name: Upload Cypress screenshots
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: Cypress screenshots
-          path: screenshots
+          path: cypress/screenshots
 
       - name: Upload Cypress Videos
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: Cypress Videos
-          path: videos
+          path: cypress/videos
