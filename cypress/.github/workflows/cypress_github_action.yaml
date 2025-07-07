@@ -1,0 +1,52 @@
+name: Run Cypress Tests Daily (Parallel + Report)
+
+on:
+  schedule:
+    - cron: '15 4 * * *'  # runs the test at 10:00 AM Nepal Time
+  workflow_dispatch:
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2]   # Parallel containers add as your requirements grow
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress in parallel with Mochawesome
+        run: |
+          npx cypress run --record --parallel --group "Daily Run"
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Merge Mochawesome reports
+        if: always()
+        run: |
+          npx mochawesome-merge cypress/reports/mochawesome/*.json > mochawesome.json
+          npx marge mochawesome.json --reportDir cypress/reports/final --reportFilename index.html
+
+      - name: Upload Mochawesome HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mochawesome Test Report
+          path: cypress/reports/final/index.html
+
+      - name: Upload Cypress Videos
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cypress Videos
+          path: cypress/videos
