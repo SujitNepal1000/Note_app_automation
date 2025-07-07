@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
+  projectId: 'y3eqwy',
   reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
     reportDir: 'reports/mochawesome',

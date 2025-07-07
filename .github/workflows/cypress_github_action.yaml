@@ -32,7 +32,7 @@ jobs:
 
       - name: Run Cypress in parallel with Mochawesome
         run: |
-          npx cypress run --parallel --group "Daily Run"
+          npx cypress run --record --parallel --group "Daily Run"
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
