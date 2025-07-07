@@ -5,7 +5,7 @@ on:
   #   - cron: '18 1 * * *'  # runs the test at 10:00 AM Nepal Time
   # workflow_dispatch:
 
- # this is for the test of trigger 
+ # this is for the test of trigger changed
   push:
     branches:
       - "**"
