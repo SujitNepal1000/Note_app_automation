@@ -34,8 +34,31 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
+      - name: Verify CYPRESS_API_KEY
+        env:
+          CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+        run: |
+          if [ -n "$CYPRESS_API_KEY" ]; then
+            echo "CYPRESS_API_KEY is set (length: ${#CYPRESS_API_KEY} characters)"
+          else
+            echo "CYPRESS_API_KEY is not set"
+          fi
+
       - name: List report files (debug)
-        run: ls -la cypress/reports/mochawesome/ || echo "No files found in cypress/reports/mochawesome/"
+        run: |
+          if ls cypress/reports/mochawesome/*.json >/dev/null 2>&1; then
+            echo "JSON files found:"
+            ls -la cypress/reports/mochawesome/*.json
+            echo "Checking JSON file contents:"
+            for file in cypress/reports/mochawesome/*.json; do
+              echo "Content of $file:"
+              cat "$file" || echo "Failed to read $file"
+              jq . "$file" >/dev/null 2>&1 && echo "$file is valid JSON" || echo "$file is invalid JSON"
+            done
+          else
+            echo "No JSON files found in cypress/reports/mochawesome/"
+          fi
+        shell: /usr/bin/bash -e {0}
 
       - name: Upload Mochawesome JSON reports
         if: always()
@@ -61,6 +84,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Download Mochawesome JSON reports
         uses: actions/download-artifact@v4
         with:
@@ -72,18 +98,35 @@ jobs:
         run: |
           mkdir -p cypress/reports/mochawesome
           mv artifacts/mochawesome-json-*/*.json cypress/reports/mochawesome/ || echo "No JSON files found"
+        shell: /usr/bin/bash -e {0}
 
       - name: List report files (debug)
-        run: ls -la cypress/reports/mochawesome/ || echo "No files found in cypress/reports/mochawesome/"
+        run: |
+          if ls cypress/reports/mochawesome/*.json >/dev/null 2>&1; then
+            echo "JSON files found:"
+            ls -la cypress/reports/mochawesome/*.json
+            echo "Checking JSON file contents:"
+            for file in cypress/reports/mochawesome/*.json; do
+              echo "Content of $file:"
+              cat "$file" || echo "Failed to read $file"
+              jq . "$file" >/dev/null 2>&1 && echo "$file is valid JSON" || echo "$file is invalid JSON"
+            done
+          else
+            echo "No JSON files found in cypress/reports/mochawesome/"
+          fi
+        shell: /usr/bin/bash -e {0}
 
       - name: Merge and generate Mochawesome reports
         run: |
           if ls cypress/reports/mochawesome/*.json >/dev/null 2>&1; then
+            echo "Merging JSON files..."
             npx mochawesome-merge cypress/reports/mochawesome/*.json > cypress/reports/mochawesome/mochawesome.json
+            echo "Generating HTML report..."
             npx marge cypress/reports/mochawesome/mochawesome.json --reportDir cypress/reports/mochawesome --reportFilename index.html
           else
             echo "No JSON files found in cypress/reports/mochawesome/. Skipping merge."
           fi
+        shell: /usr/bin/bash -e {0}
 
       - name: Upload Mochawesome HTML Report
         if: always()
@@ -108,13 +151,3 @@ jobs:
           name: Cypress Videos
           path: cypress/videos
           if-no-files-found: ignore
-
-      - name: Verify CYPRESS_API_KEY
-        env:
-          CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
-        run: |
-          if [ -n "$CYPRESS_API_KEY" ]; then
-            echo "CYPRESS_API_KEY is set (length: ${#CYPRESS_API_KEY} characters)"
-          else
-            echo "CYPRESS_API_KEY is not set"
-          fi
