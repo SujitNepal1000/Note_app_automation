@@ -34,7 +34,7 @@ jobs:
         run: |
           npx cypress run --record --parallel --group "Daily Run"
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_RECORD_KEY: ${{17d40ff1-099e-4be1-b744-5e24014692dd}}
 
       - name: Merge Mochawesome reports
         if: always()
