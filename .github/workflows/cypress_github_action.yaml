@@ -50,9 +50,16 @@ jobs:
           name: Mochawesome Test Report
           path: reports/mochawesome/index.html
 
+      - name: Upload Cypress screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cypress screenshots
+          path: screenshots
+
       - name: Upload Cypress Videos
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: Cypress Videos
-          path: cypress/videos
+          path: videos
