@@ -34,16 +34,17 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Verify CYPRESS_API_KEY
+
+      - name: Verify CYPRESS_RECORD_KEY
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         run: |
-          echo CYPRESS_RECORD_KEY
+          if [ -n "$CYPRESS_RECORD_KEY" ]; then
+            echo "CYPRESS_RECORD_KEY is set (length: ${#CYPRESS_RECORD_KEY} characters)"
+          else
+            echo "CYPRESS_RECORD_KEY is not set"
+          fi
 
-      - name: Echo CYPRESS_API_KEY (Temporary)
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        run: echo "CYPRESS_API_KEY=$CYPRESS_RECORD_KEY"
 
       - name: List report files (debug)
         run: |
