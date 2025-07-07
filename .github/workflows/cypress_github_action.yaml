@@ -38,11 +38,12 @@ jobs:
         env:
           CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
         run: |
-          if [ -n "$CYPRESS_API_KEY" ]; then
-            echo "CYPRESS_API_KEY is set (length: ${#CYPRESS_API_KEY} characters)"
-          else
-            echo "CYPRESS_API_KEY is not set"
-          fi
+          echo CYPRESS_API_KEY
+
+      - name: Echo CYPRESS_API_KEY (Temporary)
+        env:
+          CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+        run: echo "CYPRESS_API_KEY=$CYPRESS_API_KEY"
 
       - name: List report files (debug)
         run: |
