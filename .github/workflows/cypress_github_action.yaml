@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # Enable pushing changes
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -78,6 +80,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # Enable pushing changes
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -131,7 +135,17 @@ jobs:
           fi
         shell: /usr/bin/bash -e {0}
 
-      - name: Upload Mochawesome HTML Report
+      - name: Commit and push Mochawesome report
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add cypress/reports/mochawesome/index.html cypress/reports/mochawesome/mochawesome.json
+          git commit -m "Add Mochawesome report from run ${{ github.run_number }}" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Mochawesome HTML Report (optional backup)
         if: always()
         uses: actions/upload-artifact@v4
         with:
