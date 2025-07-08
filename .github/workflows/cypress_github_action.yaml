@@ -1,14 +1,15 @@
 name: Run Cypress Tests Daily (Parallel + Report)
 
-# Uncomment to run on schedule every day at 10:00 AM Nepal time (UTC+5:45 → cron in UTC)
-# schedule:
-#   - cron: '15 4 * * *'  # 10:00 AM Nepal time
-
+# on schedule every day at 9:00 AM Nepal time (UTC+5:45 → cron in UTC)
 on:
-  push:
-    branches:
-      - "**"
-  workflow_dispatch:
+  schedule:
+    - cron: '15 3 * * *'  # 9:00 AM Nepal time
+
+# on:
+#   push:
+#     branches:
+#       - "**"
+#   workflow_dispatch:
 
 jobs:
   cypress-run:
