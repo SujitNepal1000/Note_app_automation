@@ -3,7 +3,7 @@ name: Run Cypress Tests Daily (Parallel + Report)
 # Run on schedule every day at 11:15 AM Nepal Time (UTC+5:45 → 5:30 AM UTC)
 on:
   schedule:
-    - cron: '30 5 * * *' # 5:30 AM UTC = 11:15 AM Nepal Time
+    - cron: '50 5 * * *' # 5:30 AM UTC = 11:15 AM Nepal Time
 
 # Commented out for scheduled run only
 # on:
@@ -182,3 +182,8 @@ jobs:
           name: Cypress Videos
           path: cypress/videos
           if-no-files-found: ignore
+
+      - name: Test(Cypress)
+        uses: cypress-io/github-action@v4
+        env:
+          TZ: Asia/Kathmandu

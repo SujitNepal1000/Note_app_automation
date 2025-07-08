@@ -4,7 +4,10 @@
   "description": "This repo consist the assessment for the note app automation done using cypress.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "TZ=Asia/Nepal cypress open",
+    "cypress:run": "TZ=Asia/Nepal cypress run"
+    
   },
   "keywords": [],
   "author": "",
