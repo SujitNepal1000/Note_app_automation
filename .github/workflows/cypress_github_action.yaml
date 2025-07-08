@@ -63,6 +63,8 @@ jobs:
           else
             echo "No JSON files found in cypress/reports/mochawesome/"
           fi
+          echo "Listing all files in cypress/reports/mochawesome/:"
+          ls -la cypress/reports/mochawesome/
         shell: /usr/bin/bash -e {0}
 
       - name: Upload Mochawesome JSON reports
@@ -121,6 +123,8 @@ jobs:
           else
             echo "No JSON files found in cypress/reports/mochawesome/"
           fi
+          echo "Listing all files in cypress/reports/mochawesome/:"
+          ls -la cypress/reports/mochawesome/
         shell: /usr/bin/bash -e {0}
 
       - name: Merge and generate Mochawesome reports
@@ -139,7 +143,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add cypress/reports/mochawesome/index.html cypress/reports/mochawesome/mochawesome.json
+          git add cypress/reports/mochawesome/index.html
           git commit -m "Add Mochawesome report from run ${{ github.run_number }}" || echo "No changes to commit"
           git push
         env:
