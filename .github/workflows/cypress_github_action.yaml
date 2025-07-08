@@ -141,13 +141,18 @@ jobs:
 
       - name: Commit and push Mochawesome report
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add cypress/reports/mochawesome/index.html
-          git commit -m "Add Mochawesome report from run ${{ github.run_number }}" || echo "No changes to commit"
-          git push
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          if [ -f "cypress/reports/mochawesome/index.html" ]; then
+            git add cypress/reports/mochawesome/index.html
+            git commit -m "Add Mochawesome report from run ${{ github.run_number }}" || echo "No changes to commit"
+            git push
+          else
+            echo "index.html not found, skipping commit"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: /usr/bin/bash -e {0}
 
       - name: Upload Mochawesome HTML Report (optional backup)
         if: always()
