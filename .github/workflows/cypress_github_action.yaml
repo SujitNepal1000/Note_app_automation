@@ -3,7 +3,7 @@ name: Run Cypress Tests Daily (Parallel + Report)
 # on schedule every day at 9:00 AM Nepal time (UTC+5:45 → cron in UTC)
 on:
   schedule:
-    - cron: '20 9 * * *'  # 9:00 AM Nepal time
+    - cron: '0/15 * * * *'  # 9:00 AM Nepal time
 
 # on:
 #   push:
