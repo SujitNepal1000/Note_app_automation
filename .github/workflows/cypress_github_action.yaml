@@ -1,9 +1,9 @@
 name: Run Cypress Tests Daily (Parallel + Report)
 
-# Run on schedule every day at 11:15 AM Nepal Time (UTC+5:45 → 5:30 AM UTC)
+# Run on schedule every day enter the time based on UTC
 on:
   schedule:
-    - cron: '50 6 * * *' # 5:30 AM UTC = 11:15 AM Nepal Time
+    - cron: '50 6 * * *' 
 
 # Commented out for scheduled run only
 # on:
