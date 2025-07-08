@@ -10,7 +10,6 @@ describe("Note Feature Test Suite", () => {
       testData = data.data;
     });
   });
-  const a;
 
   beforeEach(() => {
     notePage.login(testData.email, testData.password);
